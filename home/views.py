@@ -63,7 +63,9 @@ def registerdispatch (request) :
 def registermis (request) :
     return render(request , "registermis.html")
 def lh4(request) :
-    return render(request , "lh4.html")
+    userid=request.POST.get("hiddenuserid5")
+    print(userid)
+    return render(request , "lh4.html",{"user_id":userid})
 def courierorder(request) :
     db1=database.child("Data").child("ConfirmedOrders").child("OrderDetails").child("dummydispatch").get()
     userid=request.POST.get("hiddenuserid5")
@@ -135,7 +137,7 @@ def postconfirmcourier(request) :
 
 def viewcourrierorder (request) : 
     db1=database.child("Data").child("ConfirmedOrders").child("OrderDetails").child("dummycourier").get()
-    userid=request.POST.get("hiddenuserid5")
+    userid=request.POST.get("user_id")
     
     try :
 
@@ -145,10 +147,11 @@ def viewcourrierorder (request) :
                 
                 i.val().pop('User Confirmed Order')
                 i.val().pop('courier')
-              
+               
+                print(i.val())
                 return render(request , "viewcourrierorder.html",{"courierdetails":i.val(),"user_id":userid})
     except :
-        return render(request , "lh4.html", {"msg":"No order is send yet !! Please Try again"})
+        return render(request , "viewcourrierorder.html", {"msg":"No order is send yet !! Please Try again"})
     # user_id12 = request.POST.get("hiddenuserid12")
     
     # confirmedorders12 = []

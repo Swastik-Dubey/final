@@ -231,6 +231,8 @@
 
     <h1 style="text-align: center; margin-top: 50px;">Courier Panel</h1>
     <br>
+    <ul>
+      
     <form action="/courierorder/" method="POST">
         {% csrf_token %}
         <h1 style="text-align: center; margin-top: 50px;">Welcome User {{user_id}}</h1>
@@ -238,13 +240,26 @@
             <input type="hidden" name="hiddenuserid5" value={{user_id}}>
             <ul>
                 <li> <button type="submit" class="button1">Check Order</button></li>
+            </ul>
+        </div>
+            </form>
+    <form action="/viewcourrierorder/" method="POST">
+          {% csrf_token %}
 
-    </form>
-    <li href="/viewcourrierorder"><button class="button1 "><a href="/viewcourrierorder" >Confirmed Order</a></button></li>
+            <input type="hidden" name="hiddenuserid5" value={{user_id}}>
+            <ul>
+                <li> <button type="submit" class="button1">Confirmed Order</button></li>
+            </ul>
+        </div>
+            </form>
+   
+    
 
-    </ul>
+   
 
-    </div>
+
+<!-- <li href="/viewcourrierorder"><button class="button1 "><a href="/viewcourrierorder" >Confirmed Order</a></button></li>
+</ul> -->
 </body>
 
 </html>
