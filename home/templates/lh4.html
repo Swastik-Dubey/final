@@ -243,10 +243,10 @@
             </ul>
         </div>
             </form>
-    <form action="/viewcourrierorder/" method="POST">
-          {% csrf_token %}
-
-            <input type="hidden" name="hiddenuserid5" value={{user_id}}>
+        <form action="/viewcourrierorder/" method="POST">
+          {% csrf_token %}hiddenuserid5
+          <div class="co">
+            <input type="hidden" name="" value={{user_id}}>
             <ul>
                 <li> <button type="submit" class="button1">Confirmed Order</button></li>
             </ul>

@@ -63,9 +63,8 @@ def registerdispatch (request) :
 def registermis (request) :
     return render(request , "registermis.html")
 def lh4(request) :
-    userid=request.POST.get("hiddenuserid5")
-    print(userid)
-    return render(request , "lh4.html",{"user_id":userid})
+   
+    return render(request , "lh4.html")
 def courierorder(request) :
     db1=database.child("Data").child("ConfirmedOrders").child("OrderDetails").child("dummydispatch").get()
     userid=request.POST.get("hiddenuserid5")
@@ -136,20 +135,20 @@ def postconfirmcourier(request) :
     return render (request ,"lh4.html", {"msg" : msg ,"fromcitylist" : fromcitylist , "user_id":userid})
 
 def viewcourrierorder (request) : 
-    db1=database.child("Data").child("ConfirmedOrders").child("OrderDetails").child("dummycourier").get()
-    userid=request.POST.get("user_id")
+    db2=database.child("Data").child("ConfirmedOrders").child("OrderDetails").child("dummycourier").get()
+    user_id=request.POST.get("hiddenuserid5")
     
     try :
 
 
-        for i in db1.each() :
-            if(i.val()['courier']==userid) :
+        for i in db2.each() :
+            if(i.val()['courier']==user_id) :
                 
                 i.val().pop('User Confirmed Order')
                 i.val().pop('courier')
                
                 print(i.val())
-                return render(request , "viewcourrierorder.html",{"courierdetails":i.val(),"user_id":userid})
+                return render(request , "viewcourrierorder.html",{"courierdetails":i.val(),"user_id":user_id})
     except :
         return render(request , "viewcourrierorder.html", {"msg":"No order is send yet !! Please Try again"})
     # user_id12 = request.POST.get("hiddenuserid12")
