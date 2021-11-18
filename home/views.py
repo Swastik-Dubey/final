@@ -68,6 +68,7 @@ def lh4(request) :
 def courierorder(request) :
     db1=database.child("Data").child("ConfirmedOrders").child("OrderDetails").child("dummydispatch").get()
     userid=request.POST.get("hiddenuserid5")
+    courier = request.POST.get("courier")  
     
     try :
 
@@ -93,7 +94,7 @@ def confirmedcourier(request):
     return render (request , "confirmedcourier.html",{"bill_id":bill_id , "userid2":userid2})
 
 def postconfirmcourier(request) :
-    
+    courier = request.POST.get("courier")  
     bill_id = request.POST.get("bill_id")
     userid = request.POST.get("hiddenuserid5")
     dbdispatch = database.child("Data").child("ConfirmedOrders").child("OrderDetails").child("dummydispatch").get()
@@ -107,7 +108,7 @@ def postconfirmcourier(request) :
             partyname = database.child("Data").child("ConfirmedOrders").child("OrderDetails").child("dummydispatch").child(pcdispatch.key()).child("partyname").get().val()
             invcno = database.child("Data").child("ConfirmedOrders").child("OrderDetails").child("dummydispatch").child(pcdispatch.key()).child("invcno").get().val()
             data = {
-              
+                "courier" :courier,
                 "Bill Id":bill_id,
                 "fromcity" : fromcity ,
                 "company_name" : companyname12 ,
@@ -117,7 +118,7 @@ def postconfirmcourier(request) :
                 "invcno" : invcno,
                 "User Confirmed Order": userid
                 }
-
+            print(data)
             database.child("Data").child("ConfirmedOrders").child("OrderDetails").child("courierorder").child(userid).push(data)
             database.child("Data").child("ConfirmedOrders").child("OrderDetails").child("dummycourier").push(data)
     for deletedispatch in dbdispatch.each():
@@ -128,7 +129,7 @@ def postconfirmcourier(request) :
     fromcitylist=[]
     for citydetails in fromcity:
         for eachcitykey,eachcityval in citydetails.items():
-            if eachcitykey=='fromcity':
+            if eachcitykey=='Bill Id':
                 if eachcityval not in fromcitylist:
                     fromcitylist.append(eachcityval)
     msg = "You received the order  !! Message has been sent to Admin !!"
@@ -137,29 +138,30 @@ def postconfirmcourier(request) :
 def viewcourrierorder (request) : 
     db2=database.child("Data").child("ConfirmedOrders").child("OrderDetails").child("dummycourier").get()
     user_id=request.POST.get("hiddenuserid5")
-    
-    try :
+  
+  
 
 
-        for i in db2.each() :
-            if(i.val()['courier']==user_id) :
+    for i in db2.each() :
+        if(i.val()['courier']==user_id) :
                 
-                i.val().pop('User Confirmed Order')
-                i.val().pop('courier')
+            i.val().pop('User Confirmed Order')
+            i.val().pop('courier')
                
-                print(i.val())
-                return render(request , "viewcourrierorder.html",{"courierdetails":i.val(),"user_id":user_id})
-    except :
-        return render(request , "viewcourrierorder.html", {"msg":"No order is send yet !! Please Try again"})
-    # user_id12 = request.POST.get("hiddenuserid12")
+            print(i.val())
+            return render(request , "viewcourrierorder.html",{"courierdetails":i.val(),"user_id":user_id})
+   
+    # user_id12 = request.POST.get("hiddenuserid5")
     
     # confirmedorders12 = []
     # dispatchinfo = database.child("Data").child("ConfirmedOrders").child("OrderDetails").child("dummycourier").get()
     # for i in dispatchinfo.each() :
-    #     i.val().pop('User Confirmed Order')
-    #     confirmedorders12.append(i.val())
+    #     if(i.val()['courier']==user_id12) :
+    #         i.val().pop('User Confirmed Order')
+    #         # i.val().pop('courier')
+    #         confirmedorders12.append(i.val())
 
-    # return render (request ,"viewcourrierorder.html" , {"user_id" : user_id12 ,"COlist": confirmedorders12})
+    # return render (request ,"viewcourrierorder.html" , {"user_id" : user_id12 ,"courierdetails": confirmedorders12})
 
 def confirmedcourierorder(request) :
     return render(request , "confirmedcourierorder.html")
