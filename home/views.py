@@ -3,7 +3,7 @@ from django import contrib
 from django.shortcuts import redirect, render, HttpResponse
 from datetime import datetime 
 
-from requests import post,get
+
 from firebase.firebase import FirebaseApplication, FirebaseAuthentication
 from django.contrib import messages
 from django.contrib.auth.models import User, auth
@@ -736,13 +736,14 @@ def postbookingorder(request):
             # Your Account SID from twilio.com/console
             account_sid = "ACa146b54a52c221a9a0b309438c3171c5"
             # Your Auth Token from twilio.com/console
-            auth_token  = "a45d456ec83e1d42f3cf24f23c0e4058"
+            auth_token  = "86b50e27db43ef6da65ca585f91a441d"
 
             client = Client(account_sid, auth_token)
             
             message = client.messages.create(
                 from_="+16308844509",
-                to="+917588069659", 
+                to="", 
+                
                 body=msg)
 
             print(message.sid)
@@ -751,7 +752,7 @@ def postbookingorder(request):
             subject = 'Your Order Confirmation Details!!!'
             message1 = msg
             email_from = settings.EMAIL_HOST_USER
-            recipient_list = ['neemeesh.22010929@viit.ac.in','omkar.22010962@viit.ac.in', ]
+            recipient_list = []
             send_mail( subject, message1, email_from, recipient_list )
             mssg="Order Booked Successfully !!! \n Message and Email Sent to the Company/Party !!!"
             database.child("Data").child(user_id).remove()
@@ -805,7 +806,7 @@ def postdonebookingorder(request):
     client = Client(account_sid, auth_token)
      
     message = client.messages.create(
-        to="+917588069659", 
+        to="", 
         from_="+16308844509",
         body="Your Order has been Confirmed Your Bill Id is :"+bill_id+"\n"+"You Booked your order on :"+datee)
 
@@ -1414,7 +1415,7 @@ def ordersconfirmedbydispatch(request):
     client = Client(account_sid, auth_token)
      
     message = client.messages.create(
-        to="+917588069659", 
+        to="", 
         from_="+16308844509",
         body="Your Order has been Dispatched ,\n having Bill ID(Note this Bill id for Future Use):"+bill_id_dispatch+"\n"+"Dispatched From:"+fromcity_dispatch+"\n"+"Dispatching Date:"+date_dispatch+"\n"+"Your Order is Arriving on:"+date_booking+"\n Your Order is arriving at the location:"+fromcity_booking+"\nas Booked by you")
 
